@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { ModeToggle } from "@/components/ModeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className='flex items-center justify-center gap-3'>
-      <Link className='text-[20px] text-red-500 hover:text-red-200 ' href={'/products'}>
-      products
-      </Link>
-      <Link className='text-[20px] text-red-500 hover:text-red-200' href={'/'}>
-      Home
-      </Link>
-    </div>
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            >
+            <ModeToggle/>
+            {children}
+          </ThemeProvider>
       </body>
     </html>
   );
