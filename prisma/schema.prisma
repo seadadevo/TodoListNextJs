@@ -1,0 +1,18 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "windows"]
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model Todo {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    age       Int?
+    title     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
