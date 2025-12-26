@@ -1,25 +1,19 @@
 import { PrismaClient } from '@prisma/client'
+import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 
 async function main() {
 
-  const todo1 = await prisma.todo.create({
-    data: {
-      name: "Ali",
-      title: "Learn Next.js with Prisma",
-      age: 25,
-    }
-  })
-  const todo2 = await prisma.todo.create({
-    data: {
-      name: "Sara",
-      title: "Finish the project",
-      age: 22,
-    }
+  const todos = await prisma.todo.createMany({
+    data: Array.from({length: 10}, () => ({
+      name: faker.person.firstName(),
+      age: faker.number.int({ min: 18, max: 80 }),
+      title: faker.lorem.sentence()
+    }))
   })
   
-  console.log({ todo1, todo2 });
+  console.log({ todos  });
   
 }
 
