@@ -10,9 +10,9 @@ datasource db {
 
 model Todo {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
-    age       Int?
     title     String
+    body      String?
+    completed Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

@@ -4,12 +4,11 @@ import { faker } from '@faker-js/faker'
 const prisma = new PrismaClient()
 
 async function main() {
-
+  await prisma.todo.deleteMany();
   const todos = await prisma.todo.createMany({
     data: Array.from({length: 10}, () => ({
-      name: faker.person.firstName(),
-      age: faker.number.int({ min: 18, max: 80 }),
-      title: faker.lorem.sentence()
+      title: faker.lorem.sentence(),
+      body: faker.lorem.paragraph(),
     }))
   })
   
