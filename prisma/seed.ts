@@ -7,7 +7,7 @@ async function main() {
   await prisma.todo.deleteMany();
   const todos = await prisma.todo.createMany({
     data: Array.from({length: 10}, () => ({
-      title: faker.lorem.sentence(),
+      title: faker.lorem.sentence(2),
       body: faker.lorem.paragraph(),
     }))
   })
