@@ -5,10 +5,20 @@ import { Button } from './ui/button';
 import { Pen, Trash } from 'lucide-react';
 import { TodoTableProps } from '@/interfaces';
 import { Badge } from './ui/badge';
-
+import { deleteTodoActions } from '@/actions/todo.actions';
+import { useState } from 'react';
+import Spinner from './Spinner';
 
 
 export const TodoTable = ({data}: TodoTableProps) => {
+  
+  const [loadingId , setLoadingId] = useState<string | null>(null);
+  
+  const onDelete = async (id: string) => {
+    setLoadingId(id);
+    await deleteTodoActions(id);
+    setLoadingId(null);
+  }
   return (
     <div className='border rounded-md p-4'>
         <Table>
@@ -48,8 +58,8 @@ export const TodoTable = ({data}: TodoTableProps) => {
                   <Button size="icon" variant="ghost">
                     <Pen size={16} />
                   </Button>
-                  <Button size="icon" variant="destructive">
-                    <Trash size={16} />
+                  <Button size="icon" variant="destructive" onClick={() => onDelete(todo.id)}  disabled={loadingId === todo.id}>
+                  {loadingId === todo.id ? <Spinner /> : <Trash size={16} /> }
                   </Button>
                 </TableCell>
               </TableRow>

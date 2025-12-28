@@ -49,7 +49,7 @@ const AddTodoForm = () => {
   return (
     <Dialog>
         <DialogTrigger asChild>
-          <Button variant={"outline"}>Open Dialog</Button>
+          <Button variant={"outline"}>Add Todo</Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
