@@ -1,15 +1,19 @@
+import { getTodoListActions } from "@/actions/todo.actions";
 import AddTodoForm from "@/components/AddTodoForm";
+import { TodoTable } from "@/components/TodoTable";
 
 export default async function Home() {
-  // const todos = await getTodoListActions();
+  const todos = await getTodoListActions();
 
   
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-2xl font-bold">Welcome to the Todo App</h1>
-
-      <AddTodoForm/>
+    <main className="max-w-7xl mx-auto py-10">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">My Todos</h1>
+        <AddTodoForm />
+      </div>
+      <TodoTable data={todos} />
       
     </main>
   );
