@@ -8,15 +8,17 @@ import { Badge } from './ui/badge';
 import { deleteTodoActions } from '@/actions/todo.actions';
 import { useState } from 'react';
 import Spinner from './Spinner';
+import { useRouter } from 'next/navigation';
 
 
 export const TodoTable = ({data}: TodoTableProps) => {
-  
+  const router = useRouter();
   const [loadingId , setLoadingId] = useState<string | null>(null);
   
   const onDelete = async (id: string) => {
     setLoadingId(id);
     await deleteTodoActions(id);
+    router.refresh();
     setLoadingId(null);
   }
   return (

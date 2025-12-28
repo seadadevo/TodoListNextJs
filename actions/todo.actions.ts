@@ -1,6 +1,7 @@
 'use server';
 
 import { PrismaClient } from '@prisma/client'
+import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -16,6 +17,7 @@ export const createTodoActions = async ({title, body, completed}: {title: string
             completed
         }
     })
+    revalidatePath('/'); 
 }
 
 export const deleteTodoActions = async (id: string) => {
@@ -24,5 +26,8 @@ export const deleteTodoActions = async (id: string) => {
             id, 
         }
     })
+
+    revalidatePath('/');   
     return todos;
+
 }

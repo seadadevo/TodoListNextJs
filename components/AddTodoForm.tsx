@@ -27,9 +27,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Checkbox } from "./ui/checkbox";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 const AddTodoForm = () => {
-
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof todoFormSchema>>({
     resolver: zodResolver(todoFormSchema),
     defaultValues: {
@@ -40,14 +45,17 @@ const AddTodoForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof todoFormSchema>) {
-    console.log(values);
+    setLoading(true);
     await createTodoActions({title: values.title, body: values.body, completed: values.completed});
     form.reset();
+    router.refresh(); 
+    setLoading(false);
+    setOpen(false);
   }
 
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant={"outline"}>Add Todo</Button>
         </DialogTrigger>
@@ -119,7 +127,8 @@ const AddTodoForm = () => {
                   <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit">Create</Button>
+                  <Button type="submit"
+                  disabled={loading}>{loading ? <><Spinner/> Creating...</> : "Create"}</Button>
                 </DialogFooter>
               </form>
             </Form>
