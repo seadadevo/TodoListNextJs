@@ -9,7 +9,7 @@ import { deleteTodoActions } from '@/actions/todo.actions';
 import { useState } from 'react';
 import Spinner from './Spinner';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogContent } from '@radix-ui/react-dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog';
 import EditTodoDialog from './EditTodoDialog';
 
 
@@ -58,13 +58,11 @@ export const TodoTable = ({data}: TodoTableProps) => {
                 </TableCell>
                 
               
-                <TableCell className="text-left flex justify-end gap-2">
-                  <Button size="icon" variant="ghost">
-                    
+                <TableCell className="text-right flex items-center justify-end gap-2">
                     <EditTodoDialog todo ={todo}/>
-                  </Button>
+                  
                   <Button size="icon" variant="destructive" onClick={() => onDelete(todo.id)}  disabled={loadingId === todo.id}>
-                  {loadingId === todo.id ? <Spinner /> : <Trash size={16} /> }
+                    {loadingId === todo.id ? <Spinner /> : <Trash size={16} /> }
                   </Button>
                 </TableCell>
               </TableRow>

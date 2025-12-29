@@ -48,9 +48,9 @@ export default function RootLayout({
 
                 <SignedOut>
                   <SignInButton mode="modal">
-                    <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium">
+                    <span className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium cursor-pointer">
                       Sign In
-                    </button>
+                    </span>
                   </SignInButton>
                 </SignedOut>
 

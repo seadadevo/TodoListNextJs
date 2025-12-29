@@ -7,7 +7,16 @@ import { revalidatePath } from 'next/cache';
 const prisma = new PrismaClient();
 
 export const getTodoListActions = async () => {
+    const { userId } = await auth();
+
+    if (!userId) {
+        return [];
+    }
+
     const todos = await prisma.todo.findMany({
+        where: {
+            user_Id: userId
+        },
         orderBy: {
             createdAt: 'desc'
         }
@@ -56,7 +65,7 @@ export const editTodoActions = async (id:string, { title, body, completed}: { ti
         data: {
             title,
             body,
-            completed
+            completed 
         }
     })
 
