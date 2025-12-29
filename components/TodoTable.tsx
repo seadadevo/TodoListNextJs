@@ -2,19 +2,21 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Button } from './ui/button';
-import { Pen, Trash } from 'lucide-react';
+import { Edit, Pen, Trash } from 'lucide-react';
 import { TodoTableProps } from '@/interfaces';
 import { Badge } from './ui/badge';
 import { deleteTodoActions } from '@/actions/todo.actions';
 import { useState } from 'react';
 import Spinner from './Spinner';
 import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent } from '@radix-ui/react-dialog';
+import EditTodoDialog from './EditTodoDialog';
 
 
 export const TodoTable = ({data}: TodoTableProps) => {
   const router = useRouter();
   const [loadingId , setLoadingId] = useState<string | null>(null);
-  
+
   const onDelete = async (id: string) => {
     setLoadingId(id);
     await deleteTodoActions(id);
@@ -58,7 +60,8 @@ export const TodoTable = ({data}: TodoTableProps) => {
               
                 <TableCell className="text-left flex justify-end gap-2">
                   <Button size="icon" variant="ghost">
-                    <Pen size={16} />
+                    
+                    <EditTodoDialog todo ={todo}/>
                   </Button>
                   <Button size="icon" variant="destructive" onClick={() => onDelete(todo.id)}  disabled={loadingId === todo.id}>
                   {loadingId === todo.id ? <Spinner /> : <Trash size={16} /> }
@@ -66,10 +69,10 @@ export const TodoTable = ({data}: TodoTableProps) => {
                 </TableCell>
               </TableRow>
             ))
-                    )
+          )
                     }
             </TableBody>
         </Table>
-    </div>
+    </div> 
   )
 }
