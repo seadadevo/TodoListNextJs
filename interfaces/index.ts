@@ -3,6 +3,8 @@ export interface ITodo{
         title: string;
         body?: string | null;
         completed: boolean;
+        createdAt?: Date | string; 
+        user_Id?: string; 
 }
 
 export interface TodoTableProps{
