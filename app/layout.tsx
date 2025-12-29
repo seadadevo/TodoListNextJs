@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/ModeToggle";
-
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import Link from "next/link"; // مهم عشان اللوجو يرجع للصفحة الرئيسية
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,20 +27,46 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-            >
-              <ModeToggle/>
-            {children}
+          >
+            <nav className="flex items-center justify-between p-4 border-b h-16 bg-background">
+              <Link href="/" className="text-xl font-bold px-2">
+                Todo App 📝
+              </Link>
+
+              <div className="flex items-center gap-4">
+                <ModeToggle />
+
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                </SignedOut>
+
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </nav>
+
+            <main className="container mx-auto py-8 px-4">
+              {children}
+            </main>
+
           </ThemeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -46,13 +46,21 @@ const AddTodoForm = () => {
 
   async function onSubmit(values: z.infer<typeof todoFormSchema>) {
     setLoading(true);
-    await createTodoActions({title: values.title, body: values.body, completed: values.completed});
-    form.reset();
-    router.refresh(); 
-    setLoading(false);
-    setOpen(false);
-  }
-
+    try {
+        await createTodoActions({
+            title: values.title, 
+            body: values.body, 
+            completed: values.completed
+        });
+        
+        form.reset();
+        router.refresh(); 
+        setOpen(false);
+    } catch (error) {
+        console.error("Client Side Error:", error);
+    } finally {
+        setLoading(false);}
+}
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

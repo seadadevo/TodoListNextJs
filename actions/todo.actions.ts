@@ -1,5 +1,6 @@
 'use server';
 
+import { auth } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client'
 import { revalidatePath } from 'next/cache';
 
@@ -14,14 +15,25 @@ export const getTodoListActions = async () => {
     return todos;
 }
 export const createTodoActions = async ({title, body, completed}: {title: string, body?: string | undefined, completed?: boolean}) => {
-    await prisma.todo.create({
-        data: {
-            title,
-            body,
-            completed
-        }
-    })
-    revalidatePath('/'); 
+    const { userId } = await auth();
+
+    if (!userId) {
+        throw new Error("User is not authenticated (Server Side Check Failed)");
+    }
+
+    try {
+        await prisma.todo.create({
+            data: {
+                title,
+                body,
+                completed,
+                user_Id: userId
+            }
+        })
+        revalidatePath('/'); 
+    } catch (error) {
+        throw new Error("Failed to create todo in database");
+    }
 }
 
 export const deleteTodoActions = async (id: string) => {
