@@ -2,6 +2,7 @@ import { getTodoListActions } from "@/actions/todo.actions";
 import AddTodoForm from "@/components/AddTodoForm";
 import { TodoTable } from "@/components/TodoTable";
 import { auth } from "@clerk/nextjs/server";
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const todos = await getTodoListActions();
