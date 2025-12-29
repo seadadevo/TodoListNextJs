@@ -1,11 +1,13 @@
 import { getTodoListActions } from "@/actions/todo.actions";
 import AddTodoForm from "@/components/AddTodoForm";
 import { TodoTable } from "@/components/TodoTable";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Home() {
   const todos = await getTodoListActions();
-
+  const {userId} = await auth()
   
+  console.log(userId)
 
   return (
     <main className="max-w-7xl mx-auto py-10">

@@ -3,8 +3,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/ModeToggle";
-import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import Link from "next/link"; // مهم عشان اللوجو يرجع للصفحة الرئيسية
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,18 +46,18 @@ export default function RootLayout({
           >
             <nav className="flex items-center justify-between p-4 border-b h-16 bg-background">
               <Link href="/" className="text-xl font-bold px-2">
-                Todo App 📝
+                Todo App 
               </Link>
 
               <div className="flex items-center gap-4">
                 <ModeToggle />
 
                 <SignedOut>
-                  <SignInButton mode="modal">
+                  <Link href="/sign-in">
                     <span className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium cursor-pointer">
                       Sign In
                     </span>
-                  </SignInButton>
+                  </Link>
                 </SignedOut>
 
                 <SignedIn>
@@ -60,10 +66,7 @@ export default function RootLayout({
               </div>
             </nav>
 
-            <main className="container mx-auto py-8 px-4">
-              {children}
-            </main>
-
+            <main className="container mx-auto py-8 px-4">{children}</main>
           </ThemeProvider>
         </body>
       </html>
